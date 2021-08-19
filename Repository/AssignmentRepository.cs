@@ -47,10 +47,11 @@ namespace AssignmentAPI.Repository
             AssignmentModel model = new AssignmentModel();
             var rng = new Random();
             string[] tagList = { "tag1","tag2"};
-            model.AssignmentDescription = "Assignment Description";
+            model.AssignmentDescription = "Assignment1 Description";
             model.AssignmentID = rng.Next().ToString();
             model.AssignmentType = "Test";
             model.AssignmentDuration = "12";
+            model.AssignmentName = "Assignment1";
             model.Tags = tagList;
 
             return model;
