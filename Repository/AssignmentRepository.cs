@@ -26,7 +26,7 @@ namespace AssignmentAPI.Repository
         public IList<AssignmentModel> GetAssignmentsByTag(string tagId)
         {
             if (tagId != null)
-                return assignmentList.Where(a => a.Tags.Contains(tagId)).ToList<AssignmentModel>();
+                return assignmentList.Where(a => a.Tags.Contains(tagId.Trim())).ToList<AssignmentModel>();
             else
                 return null;
         }
@@ -38,6 +38,9 @@ namespace AssignmentAPI.Repository
                 assignmentList = new List<AssignmentModel>();
             }
             assignment.AssignmentID = new Random().Next(1,9999).ToString();
+            //tags should no be repeated
+            assignment.Tags = assignment.Tags.Distinct().ToList();
+
             assignmentList.Add(assignment);
             return "Assignment Created";
         }

@@ -27,11 +27,24 @@ namespace AssignmentAPI
         {
             services.AddControllers();
             services.AddSingleton<IAssignmentRepository, AssignmentRepository>();
+            services.AddSwaggerGen(s=>
+            {
+                s.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Assignment",
+                    Description = "Assignment API"
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "");
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

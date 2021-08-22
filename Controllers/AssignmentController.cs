@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AssignmentAPI.Model;
 using AssignmentAPI.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AssignmentAPI.Controllers
@@ -42,8 +43,26 @@ namespace AssignmentAPI.Controllers
         [Route("api/assignment")]
         public IActionResult Post([FromBody]AssignmentModel model)
         {
-            if (model != null)
-                todoItem.AddAssignment(model);
+            try
+            {
+                if (model == null)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    if (ModelState.IsValid)
+                        todoItem.AddAssignment(model);
+                    else
+                        return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+            "Error inserting data into the database(Post : AssignmentController) Error Message " + ex.InnerException);
+            }
+
             return RedirectToAction("GetAssignments");
         }
     }
